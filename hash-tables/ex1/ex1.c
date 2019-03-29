@@ -14,12 +14,16 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
 
   //insert weights into the HT
   for (int i = 0; i < length; i++)
-  { // ht     key     value
+  {
     hash_table_insert(ht, weights[i], i);
   }
 
+  //loop over weights object
   for (int i = 0; i < length; i++)
   {
+    //if retrieve == -1 it means there is no key in the hash table
+    //do not do anything if retrieve == -1
+
     if (hash_table_retrieve(ht, limit - weights[i]) != -1)
     {
       if (answer->index_2 == -1)
@@ -32,14 +36,17 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
       }
     }
   }
-  destroy_hash_table(ht);
 
+  // check to see if index_1 has a key, retrun null if it doesn't.
   if (answer->index_1 == -1)
   {
     return NULL;
   }
 
   return answer;
+
+  //"when you use malloc you must use free" -Brady :)
+  destroy_hash_table(ht);
 }
 
 void print_answer(Answer *answer)

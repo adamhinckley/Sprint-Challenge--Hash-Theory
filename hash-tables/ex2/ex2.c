@@ -10,17 +10,23 @@ char **reconstruct_trip(Ticket **tickets, int length)
   char **route = malloc(length * sizeof(char *));
 
   // YOUR CODE HERE
+  //loop over tickets and insert them into the hash table.
   for (int i = 0; i < length; i++)
   {
     hash_table_insert(ht, tickets[i]->source, tickets[i]->destination);
   }
+  //point to the destination strings in memory
   char *dest = strdup(hash_table_retrieve(ht, "NONE"));
+
+  // loop over the routes and grab the routes and destinatons and add
+  // them to the hash table
   for (int i = 0; i < length; i++)
   {
     route[i] = strdup(dest);
     dest = hash_table_retrieve(ht, route[i]);
   }
 
+  //Free the malloc!
   destroy_hash_table(ht);
 
   return route;
